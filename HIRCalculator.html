@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<!--
+    Author: Dayanna Sanchez CPSC-20000
+    Project: Health Insurance Risk Calculator for the Web
+-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Health Insurance Risk Calculator for the Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>&#129516; &#129658; Day's Health Risk Calculator &#129658; &#129516;</h1>
+<h2>Welcome!</h2>
+
+<h3>Please read the intructions below.</h3>
+<p class="p1">Day's Health Insurence Risk Calculator is to help you - Health Insurance Companies - categorize individuals' 
+    health insurance according to their risk level. The individual's risk level will be determined by the body mass index, 
+    blood pressure, age, and family history.</p>
+
+
+<label class="l1">Select the person's age:</label><br />
+    <select id="age">
+        <option value="0">Under 30</option>
+        <option value="10">30 to 45</option>
+        <option value="20">45 to 60</option>
+        <option value="30">Over 60</option>
+    </select>
+
+    <br /><br /><br />
+
+    <label class="l2">Enter the person's height in feet and inches: </label><br />
+    <input id="height-feet" type="number" placeholder="0"></input> feet <input id="height-inches" type="number" placeholder="0"></input> inches
+    
+    <br /><br /><br />
+
+    <label class="l3">Enter the person's weight in pounds:</label><br />
+    <input id="pound" type="number" placeholder="0"></input> pounds
+
+    <br /><br /><br />
+
+    <label class="l4">Select the person's systolic and diastolic blood pressure:</label><br />
+    <select id="systolicDiastolic">
+        <option value="0 Normal"> Systolic is less than 120 and diastolic is less than 80</option>
+        <option value="15 Elevated">Systolic is 120-129 and Diastolic is less than 80</option>
+        <option value="30 High Blood Pressure (Hypertension) Stage 1">Systolic is 130-139 or diastolic is 80-89</option>
+        <option value="75 High Blood Pressure (Hypertension) Stage 2">Systolic is 140 or higher; Or diastolic is 90 or higher</option>
+        <option value="100 Hypertension Crisis">Systolic is higher than 180 and/or diastolic is higher than 120</option>
+    </select>
+
+    <br /><br /><br />
+
+    <label class="l5">Does the person have a family history of Diabetes?</label><br />
+    <select id="diabetes">
+        <option value="0">No</option>
+        <option value="10">Yes</option>
+    </select>
+
+    <br /><br /><br />
+
+    <label class="l6">Does the person have a family history of Cancer?</label><br />
+    <select id="cancer">
+        <option value="0">No</option>
+        <option value="10">Yes</option>
+    </select>
+
+    <br /><br /><br />
+
+    <label class="l7">Does the person have a family history of Alzheimers?</label><br />
+    <select id="alzheimers">
+        <option value="0">No</option>
+        <option value="10">Yes</option>
+    </select>
+
+    <br /><br /><br />
+    <button onclick="totalPenalty()">Total Penalty</button>
+    <p id="insurability"></p>
+
+
+<script>
+console.log("Day's Health Risk Calculator");
+
+function totalPenalty() {
+    console.log("totalPenalty"); 
+
+    let agePenalty = parseInt(document.getElementById("age").selectedOptions[0].value);
+    let diabetesPenalty = parseInt(document.getElementById("diabetes").selectedOptions[0].value);
+    let cancerPenalty = parseInt(document.getElementById("cancer").selectedOptions[0].value);
+    let alzheimersPenalty = parseInt(document.getElementById("alzheimers").selectedOptions[0].value);
+    let systolicDiastolicPenalty = parseInt(document.getElementById("systolicDiastolic").selectedOptions[0].value);
+    
+    let weightInPounds = document.getElementById("pound").value;
+    console.log("weight; " + weightInPounds);
+    let weightInKilagrams = weightInPounds / 2.2;
+    console.log("weightInKiligrams: " + weightInKilagrams);
+
+    let heightInFeet = document.getElementById("height-feet").value;
+    console.log("height; " + heightInFeet);
+    let heightInMeters = heightInFeet / 3.2808;
+    console.log("heightInFeet: " + heightInMeters);
+
+    let heightInInches = document.getElementById("height-inches").value;
+    console.log("height; " + heightInInches);
+    let hInMeters = heightInInches / 39.370;
+    console.log("heightInInches: " + hInMeters);
+
+    let bodyMassIndex = weightInKilagrams / ((heightInMeters + hInMeters) * (heightInMeters + hInMeters));
+
+    let totalPenalty = agePenalty + diabetesPenalty + cancerPenalty + alzheimersPenalty + systolicDiastolicPenalty;
+    let totalFamilyHistory = diabetesPenalty + cancerPenalty + alzheimersPenalty;
+    console.log("Total Penalty:" + totalPenalty);
+
+
+
+    document.getElementById("insurability").innerHTML = "Age: " + agePenalty +  " Family History: " + totalFamilyHistory + " Blood Pressure: " + systolicDiastolicPenalty;
+   
+
+    if (totalPenalty <= 25) {
+        alert("Based on these scores, the person is...low risk!"); 
+    } else if (totalPenalty <= 50) {
+        alert("Based on these scores, the person is...moderate risk!");
+    } else if (totalPenalty <= 75) {
+        alert("Based on these scores, the person is...high risk!");
+    } else {
+        alert("Based on these scores, the person is...uninsurable!");
+    }
+
+}
+    console.log("End of Script");
+
+</script>
+
+</body>
+
+</html>
